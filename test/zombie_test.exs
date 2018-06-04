@@ -5,7 +5,7 @@ defmodule ZombieTest do
   test "zombie" do
     File.rm_rf(".iex_state")
     son = %{name: "Mujju", age: 3, likes: [:legos, "greenery", :slides]}
-    Zombie.bury(binding())
+    Zombie.bury()
     Zombie.resurrect()
     assert Zombie.Vars.son() == son
   end
