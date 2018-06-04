@@ -10,20 +10,34 @@ defmodule Zombie do
   Use this to save all your variables in the current scope to a file, so that they
   can be reloaded using `Zombify.resurrect`
   """
-  def bury(bindings) do
-    File.write!(
-      state_filename(),
-      :erlang.term_to_binary(bindings)
-    )
+  defmacro bury() do
+    state_filename = state_filename()
+
+    quote bind_quoted: [state_filename: state_filename] do
+      binding = binding()
+
+      File.write!(
+        state_filename,
+        :erlang.term_to_binary(binding)
+      )
+    end
   end
 
   @doc """
   Use this to resurrect your saved variables
   """
   defmacro resurrect do
+    variable_module()
+  end
+
+  def variable_module do
     vars =
-      File.read!(state_filename())
-      |> :erlang.binary_to_term()
+      if File.exists?(state_filename()) do
+        File.read!(state_filename())
+        |> :erlang.binary_to_term()
+      else
+        []
+      end
 
     defs =
       for {k, v} <- vars do
@@ -35,7 +49,7 @@ defmodule Zombie do
       end
 
     quote do
-      defmodule ZombieState do
+      defmodule Zombie.Vars do
         unquote(defs)
       end
     end

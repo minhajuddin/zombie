@@ -7,6 +7,6 @@ defmodule ZombieTest do
     son = %{name: "Mujju", age: 3, likes: [:legos, "greenery", :slides]}
     Zombie.bury(binding())
     Zombie.resurrect()
-    assert ZombieState.son() == son
+    assert Zombie.Vars.son() == son
   end
 end
