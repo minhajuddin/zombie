@@ -44,7 +44,7 @@ defmodule Zombie.MixProject do
       maintainers: ["Khaja Minhajuddin"],
       licenses: ["MIT"],
       links: %{
-        "Github" => "http://github.com/minhajuddin/zombie",
+        "Github" => "http://github.com/tripping/zombie",
         "Docs" => "http://hexdocs.pm/zombie"
       }
     ]
